@@ -29,6 +29,9 @@ void solve(bool part2)
         foreach(var h in hh)
             history[0].Add(int.Parse(h));
 
+        if (part2)
+            history[0].Reverse();
+
         int depth = 0;
 
         bool zeroes = false;
@@ -48,28 +51,16 @@ void solve(bool part2)
             depth++;
         }
 
-        if (part2)
+        history.Last().Add(0);
+
+        for (int i = history.Count - 2; i >= 0; i--)
         {
-            history.First().Add(0);
-            for (int i = history.Count - 2; i >= 0; i--)
-            {
-                int lastDiff = history[i].First() - history[i + 1].First();
-                history[i].Insert(0, lastDiff);
-                if (i == 0)
-                    curr += lastDiff;
-            }
+            int lastDiff = history[i].Last() + history[i + 1].Last();
+            history[i].Add(lastDiff);
+            if (i == 0)
+                curr += lastDiff;
         }
-        else
-        {
-            history.Last().Add(0);
-            for (int i = history.Count - 2; i >= 0; i--)
-            {
-                int lastDiff = history[i].Last() + history[i + 1].Last();
-                history[i].Add(lastDiff);
-                if (i == 0)
-                    curr += lastDiff;
-            }
-        }
+        
         runTotal += curr;
     }
 
